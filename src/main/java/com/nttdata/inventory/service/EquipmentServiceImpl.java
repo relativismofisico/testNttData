@@ -1,6 +1,7 @@
 package com.nttdata.inventory.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,16 +40,14 @@ public class EquipmentServiceImpl implements IEquipmentService{
 
 	@Override
 	public Optional<Equipment> findBySerialCodeEquipment(String serialCodeEquipment) {
-		if(!equipmentRepository.findBySerialCodeEquipment(serialCodeEquipment).isPresent()) {
-			throw new ResourceNotFoundException("El equipo no puede ser encontrado o no existe");
-		}else {			
-			return equipmentRepository.findBySerialCodeEquipment(serialCodeEquipment);
-		}		
+		return equipmentRepository.findBySerialCodeEquipment(serialCodeEquipment);
 	}
 
 	@Override
 	public List<Equipment> findAll() {
-		return equipmentRepository.findAll();
+		List<Equipment> equipmentsList = new ArrayList<>();
+		equipmentRepository.findAll().forEach(equipment->equipmentsList.add(equipment));
+		return equipmentsList;
 	}
 
 	@Override
@@ -59,12 +58,7 @@ public class EquipmentServiceImpl implements IEquipmentService{
 
 	@Override
 	public void deleteEquipment(String serialCodeEquipment) {
-		if(!equipmentRepository.findBySerialCodeEquipment(serialCodeEquipment).isPresent()) {
-			throw new ResourceNotFoundException("El equipo no puede ser eliminado ya que no existe");
-		}
-		
 		equipmentRepository.deleteBySerialCodeEquipment(serialCodeEquipment);
-		
 	}
 
 }
