@@ -22,12 +22,5 @@ public interface EquipmentRepository extends JpaRepository<Equipment, Long>{
 	@Transactional
 	@Query(value="DELETE FROM equipments WHERE SERIAL_CODE_EQUIPMENT =?1 ", nativeQuery = true)
 	public void deleteBySerialCodeEquipment(String serialCodeEquipment);
-	
-	/*@Modifying
-	@Transactional
-	@Query(value="update equipments e set (e.nameEquipment = ?1,e.dateBuyEquipment=2?, e.priceEquipment=3?) "
-			+ "where e.serialCodeEquipment= ?4", nativeQuery = true)
-	public Equipment upDateEquipmet(String serialCodeEquipment, String nameEquipment, LocalDate dateBuyEquipment
-			,double priceEquipment);*/
 
 }

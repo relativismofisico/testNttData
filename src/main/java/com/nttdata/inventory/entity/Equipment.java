@@ -34,8 +34,12 @@ public class Equipment {
 	@NonNull
 	private String nameEquipment;
 	
+	private String descriptionEquipment;
+	
 	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate dateBuyEquipment;
+	
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate dateUpDateEquipment;
 	
 	private double priceEquipment;	

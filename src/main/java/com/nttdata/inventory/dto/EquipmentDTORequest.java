@@ -23,6 +23,7 @@ public class EquipmentDTORequest {
 	@NonNull
 	private String nameEquipment;
 	
+	private String descriptionEquipment;	
 	private double priceEquipment;
 	
 	@JsonFormat(pattern = "dd-MM-yyyy")

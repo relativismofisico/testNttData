@@ -1,6 +1,5 @@
 package com.nttdata.inventory.service;
 
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
@@ -15,15 +14,16 @@ import com.nttdata.inventory.dto.Converter;
 import com.nttdata.inventory.dto.EquipmentDTORequest;
 import com.nttdata.inventory.entity.Equipment;
 import com.nttdata.inventory.exceptions.InternalServerErrorException;
-import com.nttdata.inventory.exceptions.ResourceNotFoundException;
 import com.nttdata.inventory.repository.EquipmentRepository;
+import com.nttdata.inventory.util.Properties;
 
 @Service
 @Transactional
 public class EquipmentServiceImpl implements IEquipmentService{
 	
-	private final double LOST_PERCENTAGE=4.0;
-	private final int YEAR_DEPRESSION=1;
+	@Autowired
+	private Properties properties;
+	
 	@Autowired
 	private Converter converter;
 	
@@ -34,8 +34,17 @@ public class EquipmentServiceImpl implements IEquipmentService{
 	public Equipment insert(EquipmentDTORequest equipemntDTORequest) {
 		
 		Equipment equipmentNew = converter.equipmentDTORequestToEquipment(equipemntDTORequest);
-		//equipmentNew.setDateBuyEquipment(equipmentNew.getDateBuyEquipment().ofP);
+		
 		equipmentNew.setPriceEquipmentDevaluation(equipmentNew.getPriceEquipment());
+		
+		Period period = Period.between(equipmentNew.getDateBuyEquipment(), LocalDate.now());
+		
+		if(period.getYears()> properties.getYearsDepression()) {
+			  equipmentNew.setPriceEquipmentDevaluation(this.priceEquipmentDepression(period.getYears(), 
+					  equipmentNew.getPriceEquipment()));
+			}else {
+				equipmentNew.setPriceEquipmentDevaluation(equipmentNew.getPriceEquipment());
+			}
 		
 		equipmentRepository.save(equipmentNew);
 		
@@ -66,13 +75,14 @@ public class EquipmentServiceImpl implements IEquipmentService{
 			Equipment equipmentUpDate = converter.equipmentDTORequestToEquipment(equipemntDTORequest);
 			
 			equipmentUpDateN.setNameEquipment(equipmentUpDate.getNameEquipment());
+			equipmentUpDateN.setDescriptionEquipment(equipmentUpDate.getDescriptionEquipment());
 			equipmentUpDateN.setDateBuyEquipment(equipmentUpDateN.getDateBuyEquipment());
 			equipmentUpDateN.setDateUpDateEquipment(LocalDate.now());
 			equipmentUpDateN.setPriceEquipment(equipmentUpDate.getPriceEquipment());
 			
 			Period period = Period.between(equipmentUpDateN.getDateBuyEquipment(), LocalDate.now());
 			
-			if(period.getYears()>YEAR_DEPRESSION) {
+			if(period.getYears()> properties.getYearsDepression()) {
 			  equipmentUpDateN.setPriceEquipmentDevaluation(this.priceEquipmentDepression(period.getYears(), 
 					  equipmentUpDateN.getPriceEquipment()));
 			}else {
@@ -93,8 +103,10 @@ public class EquipmentServiceImpl implements IEquipmentService{
 	
 	public double priceEquipmentDepression(Integer years, double priceEquipment) {
 		
-		double priceEquiDepre = priceEquipment - ((LOST_PERCENTAGE/100)*(years))*priceEquipment; 
+		double priceEquiDepre = priceEquipment - ((properties.getLostPercentage()/100)*(years))*priceEquipment; 
 		return priceEquiDepre;
 	}
+	
+	
 
 }
