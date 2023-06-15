@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -32,6 +34,7 @@ public class Equipment {
 	@NonNull
 	private String nameEquipment;
 	
+	@JsonFormat(pattern = "dd-MM-yyyy")
 	private LocalDate dateBuyEquipment;
 	private LocalDate dateUpDateEquipment;
 	

@@ -10,6 +10,7 @@ public class EquipmentDTOResponse {
 	private String serialCodeEquipment;
 	private String nameEquipment;
 	private LocalDate dateBuyEquipment;
+	private LocalDate dateUpDateEquipment;
 	private double priceEquipment;
 	private double priceEquipmentDevaluation;
 }

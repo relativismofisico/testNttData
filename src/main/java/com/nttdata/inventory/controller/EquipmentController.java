@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -104,6 +105,17 @@ public class EquipmentController {
 			this.equipmentService.deleteEquipment(serialCodeEquipment);
 			return ResponseEntity.ok(HttpStatus.ACCEPTED);
 		}
+	}
+	
+	@PutMapping(value="/upDate/{serialCodeEquipment}", consumes = "application/json", produces = "application/json")
+	public ResponseEntity<?> upDateEquipment(@PathVariable("serialCodeEquipment") String serialCodeEquipment, @RequestBody EquipmentDTORequest equipmentDTORequest){
+		
+		
+		
+		Equipment upDateEquipment = equipmentService.upDateEquipment(equipmentDTORequest, serialCodeEquipment);
+		EquipmentDTOResponse equipmentUpDate = converter.equipmentToDTO(upDateEquipment);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(equipmentUpDate);
 	}
 	
 	
