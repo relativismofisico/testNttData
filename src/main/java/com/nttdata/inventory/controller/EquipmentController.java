@@ -44,10 +44,6 @@ public class EquipmentController {
 	private Converter converter;
 	
 	@Operation(summary = "Permite guardar un objeto equipo a traves del paso de un dto")
-	/*@ApiResponses(value= {
-			@ApiResponse(code = 201, message = "CREATED", response = EquipmentDTOResponse.class),
-			@ApiResponse(code = 400, message = "Bad Request", response = BadRequestException.class),
-			@ApiResponse(code = 500, message = "Internal server error", response = InternalServerErrorException.class)})*/
 	@PostMapping(value="/create", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> createUser(@RequestBody EquipmentDTORequest equipmentDTORequest) {
 		
@@ -73,11 +69,6 @@ public class EquipmentController {
 	}
 	
 	@Operation(summary = "Permite listar todos los objetos equipos guardados hasta el momento en la BD")
-	/*@ApiResponses(value= {
-			@ApiResponse(code = 302, message = "FOUND", response = EquipmentDTOResponse.class),
-			@ApiResponse(code = 204, message = "No Content", response = EquipmentDTOResponse.class),
-			@ApiResponse(code = 400, message = "Bad Request", response = BadRequestException.class),
-			@ApiResponse(code = 500, message = "Internal server error", response = InternalServerErrorException.class)})*/
 	@GetMapping(value="/findAll", produces="application/json")
 	public ResponseEntity<?> findAllEquipment(){
 		
@@ -94,11 +85,6 @@ public class EquipmentController {
 	}
 	
 	@Operation(summary = "Permite buscar un objeto equipo en particular a traves de su codigo de serie")
-	/*@ApiResponses(value= {
-			@ApiResponse(code = 302, message = "FOUND", response = EquipmentDTOResponse.class),
-			@ApiResponse(code = 404, message = "No Found", response = ResourceNotFoundException.class),
-			@ApiResponse(code = 400, message = "Bad Request", response = BadRequestException.class),
-			@ApiResponse(code = 500, message = "Internal server error", response = InternalServerErrorException.class)})*/
 	@GetMapping(value="/findByCode/{serialCodeEquipment}", produces="application/json")
 	public ResponseEntity<?> findBySerialCodeEquipment(@PathVariable("serialCodeEquipment") String serialCodeEquipment){
 		
@@ -115,12 +101,7 @@ public class EquipmentController {
 	}
 	
 	@Operation(summary = "Permite eliminar un objeto equipo en particular a traves de su codigo de serie")
-	/*@ApiResponses(value= {
-			@ApiResponse(code = 200, message = "OK", response = EquipmentDTOResponse.class),
-			@ApiResponse(code = 404, message = "No Found", response = EquipmentDTOResponse.class),
-			@ApiResponse(code = 400, message = "Bad Request", response = BadRequestException.class),
-			@ApiResponse(code = 500, message = "Internal server error", response = InternalServerErrorException.class)})
-	@DeleteMapping(value="/delete/{serialCodeEquipment}")*/
+	@DeleteMapping(value="/delete/{serialCodeEquipment}")
 	public ResponseEntity<?> deleteBySerialCodeEquipment(@PathVariable("serialCodeEquipment") String serialCodeEquipment){
 		
 		Optional<Equipment> optionalEquipmentDelete = equipmentService.findBySerialCodeEquipment(serialCodeEquipment);
@@ -134,10 +115,6 @@ public class EquipmentController {
 	}
 	
 	@Operation(summary = "Permite actualizar un objeto equipo en particular a traves de su codigo de serie y un dto con los campos del objeto")
-	/*@ApiResponses(value= {
-			@ApiResponse(code = 200, message = "OK", response = EquipmentDTOResponse.class),
-			
-			@ApiResponse(code = 500, message = "Internal server error", response = InternalServerErrorException.class)})*/
 	@PutMapping(value="/upDate/{serialCodeEquipment}", consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> upDateEquipment(@PathVariable("serialCodeEquipment") String serialCodeEquipment, @RequestBody EquipmentDTORequest equipmentDTORequest){
 		
