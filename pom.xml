@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.nttdata</groupId>
 	<artifactId>inventory</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>crud</version>
 	<name>inventory</name>
 	<description>Prueba tecnica Ntt Data</description>
 	<properties>

@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  app:
+    build: .
+    container_name: equipment
+    image: inventory-crud:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/NttData?socketTimeout=30
+      SPRING_DATASOURCE_USERNAME: nttdatauser
+      SPRING_DATASOURCE_PASSWORD: nttdatapassword
+  db:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: nttdatauser
+      POSTGRES_PASSWORD: nttdatapassword
+      POSTGRES_DB: NttData
